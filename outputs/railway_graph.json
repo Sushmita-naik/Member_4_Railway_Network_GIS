@@ -1,0 +1,43 @@
+import json
+
+
+def save_graph(graph, output_file):
+
+    graph_data = {
+        "nodes": [],
+        "edges": []
+    }
+
+    # Save nodes
+    for node, data in graph.nodes(data=True):
+
+        graph_data["nodes"].append({
+            "station_code": node,
+            **data
+        })
+
+    # Save edges
+    for source, destination, data in graph.edges(data=True):
+
+        graph_data["edges"].append({
+            "from": source,
+            "to": destination,
+            **data
+        })
+
+    with open(
+        output_file,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        json.dump(
+            graph_data,
+            file,
+            indent=4,
+            default=str
+        )
+
+    print(
+        f"Graph saved to: {output_file}"
+    )
